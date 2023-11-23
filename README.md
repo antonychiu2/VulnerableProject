@@ -46,6 +46,7 @@ stages:
 workflow: # Run on every merge request
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_PIPELINE_SOURCE == 'web'
 
 checkmarx-sast-scan-job:
   stage: checkmarx-sast-scan
