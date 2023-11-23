@@ -89,7 +89,7 @@ After the scan is complete, Mobb will run an analysis to identify auto-fix optio
 
 Click on the Mobb URL to visit the analysis page. 
 
-<img src="/source/images/MobbPipeline_URL.png" width=70% height=70%>
+<img src="/source/images/MobbPipeline_URL.png" width=80% height=80%>
 
 Once we arrive at the analysis page for the project, we can see a list of available fixes. Let's click on the "Link to Fix" button next to the XSS finding. 
 
