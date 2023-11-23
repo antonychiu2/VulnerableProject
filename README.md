@@ -14,7 +14,7 @@ To perform this integration, you will need the following:
 
 ## Setup 
 
-To setup this integration in your own Gitlab environment, you will need to first gen the Mobb API Token. 
+To setup this integration in your own Gitlab environment, you will need to first generate the Mobb API Token. 
 
 After logging into the Mobb portal, click on the "settings" icon on the bottom left, then select "Access tokens". 
 From here, you can generate an API key by selecting the "Add API Key" button. 
