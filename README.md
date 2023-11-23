@@ -71,12 +71,14 @@ mobb-autofixer-job:
     - npx mobbdev@latest analyze -f cx_result.json -r $CI_PROJECT_URL --ref $CI_COMMIT_REF_NAME --api-key $MOBB_API_KEY
   when: on_failure # Run Mobb only if there's a finding to fix
 ```
-## Running the Scan and Mob Analysis
+## Feeding SAST Scan results to Mobb for Analysis
 
 This sample pipeline is configured to run on every merge_request events, or it can also be triggered manually by the user. 
 For simplicity, we will trigger this pipeline manually. To do so, go to Pipeline -> Run Pipline.
 
 ![Run Pipeline](/source/images/MobbPipeline_RunPipeline.png "Run Pipeline"){width=60%}
+
+This will trigger the pipeline to run the Checkmarx SAST scan. After the scan is complete, the results will automatically feed into Mobb for analysis on autofix options. 
 
 ## View Mobb Analysis for auto-fix options
 
