@@ -103,6 +103,6 @@ Once you're ready, select the "Commit Changes" button.
 
 As the last step, enter the name of the target branch where this merge request will be merged. And select "Commit Changes". 
 
-<img src="/source/images/Mobbmmit_CommitChanges.png" width=70% height=70%>
+<img src="/source/images/Mobbmmit_CommitChanges.png" width=50% height=50%>
 
 Mobb has successfully committed the remediated code back to your repository under a new branch along with a new merge request. Since this pipeline is configured to run on every merge_request events, a new SAST scan will be conducted to validate the proposed changes to ensure the vulnerabilities have been remediated.
