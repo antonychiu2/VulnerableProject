@@ -101,7 +101,7 @@ Once you're ready, select the "Commit Changes" button.
 
 <img src="/source/images/Mobbmmit_CommitFix.png" width=60% height=60%>
 
-Last the last step, enter the name of the target branch where this merge request will be merged. And select "Commit Changes". 
+As the last step, enter the name of the target branch where this merge request will be merged. And select "Commit Changes". 
 
 <img src="/source/images/Mobbmmit_CommitChanges.png" width=60% height=60%>
 
