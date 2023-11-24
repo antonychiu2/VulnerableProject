@@ -108,6 +108,6 @@ As the last step, enter the name of the target branch where this merge request w
 
 Mobb has successfully committed the remediated code back to your repository under a new branch along with a new merge request. Since this pipeline is configured to run on every merge_request events, a new SAST scan will be conducted to validate the proposed changes to ensure the vulnerabilities have been remediated.
 
-<img src="/source/images/Mobb_FinalMerge.png.png" width=70% height=70%>
+<img src="/source/images/Mobb_FinalMerge.png" width=70% height=70%>
 
 The Checkmarx SAST scan passes with no high severity issues found. We will proceed to complete the merge!
