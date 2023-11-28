@@ -36,8 +36,10 @@ If you decide to use this exact YAML script, please ensure your Checkmarx relate
 ```yaml
 # This example utilizes Mobb with Checkmarx via GitLab CI/CD pipelines
 
+# This example utilizes Mobb with Checkmarx via GitLab CI/CD pipelines
+
 image:
-  name: "node:latest"
+  name: "node:20"
 
 stages:
   - checkmarx-sast-scan
