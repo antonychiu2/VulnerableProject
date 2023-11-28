@@ -34,5 +34,6 @@ mobb-autofixer-job:
   tags:
     - saas-linux-medium-amd64
   script:
+    - export npm_config_loglevel=error
     - npx mobbdev@latest analyze -f cx_result.json -r $CI_PROJECT_URL --ref $CI_COMMIT_REF_NAME --api-key $MOBB_API_KEY
   when: on_failure # Run Mobb only if there's a finding to fix
