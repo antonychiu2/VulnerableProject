@@ -3,6 +3,7 @@
 <%response.setHeader("Strict-Transport-Security", "max-age=31536000");%>
 
 {
+	"HostName": "<%=request.getParameter("HostName")%>",
 	"HostStatus": "OK" 
 }
 
