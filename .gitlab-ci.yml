@@ -1,7 +1,7 @@
 # This example utilizes Mobb with Checkmarx via GitLab CI/CD pipelines
 
 image:
-  name: "node:latest"
+  name: "node:18"
 
 stages:
   - checkmarx-sast-scan
