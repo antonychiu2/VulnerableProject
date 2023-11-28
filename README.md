@@ -34,7 +34,6 @@ If you decide to use this exact YAML script, please ensure your Checkmarx relate
 `CX_BASE_AUTH_URI`, `CX_API_KEY`, `CX_BASE_URI`, `CX_TENANT`. You can find the value to these variables by following this [guide](https://checkmarx.com/resource/documents/en/34965-118315-authentication-for-checkmarx-one-cli.html) from Checkmarx documentation. 
 
 ```yaml
-# This example utilizes Mobb with Checkmarx via GitLab CI/CD pipelines
 
 # This example utilizes Mobb with Checkmarx via GitLab CI/CD pipelines
 
