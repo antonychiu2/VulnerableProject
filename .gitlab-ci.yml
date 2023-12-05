@@ -17,16 +17,9 @@ fortify-sast-scan-job:
     - saas-linux-medium-amd64
   script: |
     apt-get update 
-    apt-get install openjdk-18-jre-headless -y
-    apt-get install maven -y
     apt-get install wget -y
     apt-get install unzip -y
-    apt-get install curl -y
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-    NODE_MAJOR=18
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/ apt/sources.list.d/nodesource.list
-    apt-get update && apt-get install nodejs -y
     wget https://tools.fortify.com/scancentral/Fortify_ScanCentral_Client_21.2.0_x64.zip -O fcs.zip
     unzip fcs.zip
     chmod +x bin/scancentral
-    . /bin/scancentral
+    ./bin/scancentral
