@@ -1,6 +1,6 @@
-# Sample Integration of Mobb with Checkmarx SAST scan in Gitlab Pipelines
+# Sample Integration of Mobb with Fortify SAST scan in Gitlab Pipelines
 
-This is a sample integration that demonstrates the ease of use of the Mobb CLI (Bugsy) in a CI/CD environment. By adding a single CLI command, you can introduce Mobb's autofix capability to any SAST pipelines to expedite the remediation of your security findings. In this  example, we will showcase how to add a Mobb Pipeline Stage to an existing Gitlab pipeline where a Checkmarx scan is configured to run against the branch during merge requests. 
+This is a sample integration that demonstrates the ease of use of the Mobb CLI (Bugsy) in a CI/CD environment. By adding a single CLI command, you can introduce Mobb's autofix capability to any SAST pipelines to expedite the remediation of your security findings. In this  example, we will showcase how to add a Mobb Pipeline Stage to an existing Gitlab pipeline where a Fortify scan is configured to run against the branch during merge requests. 
 
 # Usage
 
