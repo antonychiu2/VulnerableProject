@@ -1,7 +1,7 @@
 # This example utilizes Mobb with Fortify via GitLab CI/CD pipelines
 
 image:
-  name: "node:18"
+  name: "node:20"
 
 stages:
   - mobb-autofixer
@@ -17,7 +17,7 @@ mobb-autofixer-job:
   tags:
     - saas-linux-medium-amd64
   script: 
-    - npx mobbdev@latest analyze -f scandata.fpr -r $CI_PROJECT_URL --ref $CI_COMMIT_REF_NAME --api-key $MOBB_API_KEY
+    - npx mobbdev@latest analyze -f cx_report.json -r $CI_PROJECT_URL --ref $CI_COMMIT_REF_NAME --api-key $MOBB_API_KEY
 
 
 
