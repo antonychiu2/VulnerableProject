@@ -1,0 +1,199 @@
+{
+ "reportId": "1c60d3f6-d3f1-4d3c-95eb-70f3c3e7e078",
+ "reportHeader": {
+  "projectName": "antonychiu/smallAltoro",
+  "createdDate": "2023-11-21T23:30:38.753Z",
+  "tenantId": "32fdb418-0e38-4567-8091-efbb63b6854d",
+  "fromDate": "0001-01-01T00:00:00Z",
+  "toDate": "0001-01-01T00:00:00Z",
+  "lastScanDate": "0001-01-01T00:00:00Z",
+  "lastScanCreatedDate": "0001-01-01T00:00:00Z",
+  "loc": 413,
+  "sections": null
+ },
+ "executiveSummary": {
+  "branchName": "",
+  "projectName": "antonychiu/smallAltoro",
+  "engines": [
+   "SAST"
+  ],
+  "riskLevel": "High",
+  "totalVulnerabilities": 2,
+  "newVulnerabilities": 1,
+  "recurrentVulnerabilities": 1,
+  "vulnerabilitiesPerEngine": {
+   "SAST": 2
+  },
+  "resultsTriage": {
+   "SAST": {
+    "Confirmed": {
+     "name": "Confirmed",
+     "amount": 0,
+     "percentage": 0
+    },
+    "Not Exploitable": {
+     "name": "Not Exploitable",
+     "amount": 0,
+     "percentage": 0
+    },
+    "Proposed Not Exploitable": {
+     "name": "Proposed Not Exploitable",
+     "amount": 0,
+     "percentage": 0
+    },
+    "To Verify": {
+     "name": "To Verify",
+     "amount": 2,
+     "percentage": 100
+    },
+    "Urgent": {
+     "name": "Urgent",
+     "amount": 0,
+     "percentage": 0
+    }
+   }
+  }
+ },
+ "scanSummary": {
+  "scanId": "ae4f9e8d-d9c5-4556-9837-0b7efd1a9a0a",
+  "languages": [
+   "java"
+  ],
+  "enginesCount": 1,
+  "scanCompletedDate": "2023-11-20 22:36:31.411262 +0000 UTC",
+  "engineTypes": [
+   "SAST"
+  ]
+ },
+ "scanResults": {
+  "sast": {
+   "languages": [
+    {
+     "languageName": "java",
+     "queries": [
+      {
+       "queryName": "Reflected_XSS_All_Clients",
+       "queryId": "",
+       "description": "The method @DestinationMethod embeds untrusted data in generated output with @DestinationElement, at line @DestinationLine of @DestinationFile. This untrusted data is embedded into the output without proper sanitization or encoding, enabling an attacker to inject malicious code into the generated web-page.\n\nThe attacker would be able to alter the returned web page by simply providing modified data in the user input @SourceElement, which is read by the @SourceMethod method at line @SourceLine of @SourceFile. This input then flows through the code straight to the output web page, without sanitization. \r\n\r\nThis can enable a Reflected Cross-Site Scripting (XSS) attack.\n\n",
+       "vulnerabilitiesTotal": 1,
+       "queryPath": "Java/Java_High_Risk/Reflected_XSS_All_Clients",
+       "vulnerabilities": [
+        {
+         "id": "nyw0t7jih9PH0p/9uLPFYuSjPJA=",
+         "similarityId": 154670394,
+         "status": "NEW",
+         "state": "To Verify",
+         "severity": "HIGH",
+         "groupName": "Java_High_Risk",
+         "cweId": 79,
+         "confidenceLevel": 0,
+         "compliance": [
+          "OWASP ASVS",
+          "OWASP Top 10 2021",
+          "FISMA 2014",
+          "MOIS(KISA) Secure Coding 2021",
+          "NIST SP 800-53",
+          "OWASP Top 10 2013",
+          "OWASP Top 10 2017",
+          "CWE top 25",
+          "PCI DSS v3.2.1",
+          "SANS top 25",
+          "ASD STIG 4.10"
+         ],
+         "firstScanId": "ae4f9e8d-d9c5-4556-9837-0b7efd1a9a0a",
+         "nodes": [
+          {
+           "column": 48,
+           "fileName": "/WebContent/util/serverStatusCheckService.jsp",
+           "fullName": "\"\"HostName\"\"",
+           "length": 10,
+           "line": 5,
+           "methodLine": 5,
+           "name": "\"\"HostName\"\"",
+           "domType": "StringLiteral",
+           "method": "serverStatusCheckService"
+          },
+          {
+           "column": 36,
+           "fileName": "/WebContent/util/serverStatusCheckService.jsp",
+           "fullName": "da39a3ee.jsp_serverStatusCheckService.serverStatusCheckService.request.getParameter",
+           "length": 1,
+           "line": 5,
+           "methodLine": 5,
+           "name": "getParameter",
+           "domType": "MethodInvokeExpr",
+           "method": "serverStatusCheckService"
+          }
+         ],
+         "foundDate": {
+          "seconds": 1700519780
+         },
+         "firstFoundDate": {
+          "seconds": 1700519779
+         },
+         "sourceMethod": "serverStatusCheckService",
+         "destinationMethod": "serverStatusCheckService",
+         "sourceLine": 5,
+         "destinationLine": 5
+        }
+       ]
+      },
+      {
+       "queryName": "Missing_HSTS_Header",
+       "queryId": "",
+       "description": "The web-application does not define an HSTS header, leaving it vulnerable to attack.\n\n",
+       "vulnerabilitiesTotal": 1,
+       "queryPath": "Java/Java_Medium_Threat/Missing_HSTS_Header",
+       "vulnerabilities": [
+        {
+         "id": "CJZwwfNY6rRaeT3co0rIGPZspC0=",
+         "similarityId": 1047177895,
+         "status": "RECURRENT",
+         "state": "To Verify",
+         "severity": "MEDIUM",
+         "groupName": "Java_Medium_Threat",
+         "cweId": 346,
+         "confidenceLevel": 0,
+         "compliance": [
+          "OWASP ASVS",
+          "OWASP Top 10 2021"
+         ],
+         "firstScanId": "f1237482-09eb-4a60-a675-6a36c6b445b8",
+         "nodes": [
+          {
+           "column": 19,
+           "fileName": "/WebContent/util/serverStatusCheckService.jsp",
+           "fullName": "da39a3ee.jsp_serverStatusCheckService",
+           "length": 6,
+           "line": 1,
+           "methodLine": 1,
+           "name": "jsp_serverStatusCheckService",
+           "domType": "ClassDecl"
+          }
+         ],
+         "foundDate": {
+          "seconds": 1700519780
+         },
+         "firstFoundDate": {
+          "seconds": 1700518220
+         },
+         "sourceLine": 1
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "vulnerabilities": {
+    "total": 2,
+    "critical": 0,
+    "high": 1,
+    "medium": 1,
+    "low": 0,
+    "info": 0
+   }
+  },
+  "sca": null,
+  "kics": null
+ }
+}
