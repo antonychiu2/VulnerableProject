@@ -46,8 +46,10 @@ mobb-autofixer-job:
   stage: mobb-autofixer
   tags:
     - saas-linux-medium-amd64
-  script:
-    - npx mobbdev@latest analyze -f scandata.fpr -r $CI_PROJECT_URL --ref $CI_COMMIT_REF_NAME --api-key $MOBB_API_KEY
+  script: |
+    ls -la
+    npx mobbdev@latest analyze -f scandata.fpr -r $CI_PROJECT_URL --ref $CI_COMMIT_REF_NAME --api-key $MOBB_API_KEY
+
 
 
 
