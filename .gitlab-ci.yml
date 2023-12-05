@@ -24,6 +24,20 @@ fortify-sast-scan-job:
     ls -la
     pwd
     ./bin/scancentral package -bt mvn -o fortify_package.zip
+    wget https://github.com/fod-dev/fod-uploader-java/releases/download/v5.4.0/FodUpload.jar -O FodUpload.jar
+    UPLOAD_OUTPUT=$(java -jar FodUpload.jar \
+        -z fortify_package.zip \
+        -ep SingleScanOnly \
+        -portalurl https://ams.fortify.com/ \
+        -apiurl https://api.ams.fortify.com/ \
+        -userCredentials $FORTIFY_USER $FORTIFY_TOKEN \
+        -tenantCode $FORTIFY_TENANT \
+        -releaseId $FORTIFY_RELEASE_ID \
+        -pp Queue)
+    SCAN_ID=$(echo "$UPLOAD_OUTPUT" | sed -n 's/Scan \([0-9]*\).*$/\1/p')
+    FORTIFY_USER=$FORTIFY_USER FORTIFY_TOKEN=$FORTIFY_TOKEN FORTIFY_TENANT=$FORTIFY_TENANT node scripts/fortify-wait-fpr.js "$SCAN_ID"
+
+    
 
 
 
