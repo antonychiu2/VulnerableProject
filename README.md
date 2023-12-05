@@ -34,9 +34,6 @@ If you decide to use this exact YAML script, please ensure your Fortify related 
 `FORTIFY_USER`, `FORTIFY_TOKEN`, `FORTIFY_TENANT`, `FORTIFY_RELEASE_ID`. Refer to Fortify on Demand documentation for more details on where to obtain these values. 
 
 ```yaml
-
-# This example utilizes Mobb with Fortify on Demand via GitLab CI/CD pipelines
-
 # This example utilizes Mobb with Fortify via GitLab CI/CD pipelines
 
 image:
@@ -45,8 +42,6 @@ image:
 stages:
   - fortify-sast-scan
   - mobb-autofixer
-
-
 
 workflow: # Run on every merge request
   rules:
