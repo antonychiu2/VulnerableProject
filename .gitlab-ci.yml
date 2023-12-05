@@ -1,7 +1,7 @@
-# This example utilizes Mobb with Checkmarx via GitLab CI/CD pipelines
+# This example utilizes Mobb with Fortify via GitLab CI/CD pipelines
 
 image:
-  name: "node:20"
+  name: "ubuntu:latest"
 
 stages:
   - fortify-sast-scan
