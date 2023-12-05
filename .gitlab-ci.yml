@@ -22,6 +22,7 @@ fortify-sast-scan-job:
     unzip fcs.zip -d fcs
     chmod +x fcs/bin/scancentral
     wget https://github.com/fod-dev/fod-uploader-java/releases/download/v5.4.0/FodUpload.jar -O FodUpload.jar
+    ls -la
     /fcs/bin/scancentral package -bt mvn -o fortify_package.zip
     UPLOAD_OUTPUT=$(java -jar FodUpload.jar \
             -z fortify_package.zip \
