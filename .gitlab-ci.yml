@@ -36,8 +36,20 @@ fortify-sast-scan-job:
         -pp Queue)
     SCAN_ID=$(echo "$UPLOAD_OUTPUT" | sed -n 's/Scan \([0-9]*\).*$/\1/p')
     FORTIFY_USER=$FORTIFY_USER FORTIFY_TOKEN=$FORTIFY_TOKEN FORTIFY_TENANT=$FORTIFY_TENANT node scripts/fortify-wait-fpr.js "$SCAN_ID"
+artifacts:
+    paths:
+    - "*.fpr"
+    when: always
 
-    
+mobb-autofixer-job:
+  stage: mobb-autofixer
+  tags:
+    - saas-linux-medium-amd64
+  script:
+    - npx mobbdev@latest analyze -f scandata.fpr -r $CI_PROJECT_URL --ref $CI_COMMIT_REF_NAME --api-key $MOBB_API_KEY
+
+
+
 
 
 
