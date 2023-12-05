@@ -20,7 +20,7 @@ fortify-sast-scan-job:
     apt install -y openjdk-17-jre-headless maven wget unzip
     wget https://tools.fortify.com/scancentral/Fortify_ScanCentral_Client_21.2.0_x64.zip -O fcs.zip
     unzip fcs.zip
-    chmod +x fcs/bin/scancentral
+    chmod +x bin/scancentral
     ls -la
     pwd
     ./bin/scancentral package -bt mvn -o fortify_package.zip
