@@ -9,7 +9,7 @@ This is a sample integration that demonstrates the ease of use of the Mobb CLI (
 To perform this integration, you will need the following: 
 
 - Sign up for a free account at https://mobb.ai
-- An existing Checkmarx (CxOne) subscription
+- An existing Fortify on Demand account
 - An existing Gitlab account
 
 ## Setup 
@@ -30,49 +30,65 @@ Next, go to your Gitlab repository and select "Settings -> CI/CD -> Variables". 
 
 Let's now configure the Gitlab Pipeline. You can use the following sample YAML script, or customize it to your liking. 
 
-If you decide to use this exact YAML script, please ensure your Checkmarx related variables are well defined. Namely, 
-`CX_BASE_AUTH_URI`, `CX_API_KEY`, `CX_BASE_URI`, `CX_TENANT`. You can find the value to these variables by following this [guide](https://checkmarx.com/resource/documents/en/34965-118315-authentication-for-checkmarx-one-cli.html) from Checkmarx documentation. 
+If you decide to use this exact YAML script, please ensure your Fortify related variables are well defined. Namely, 
+`FORTIFY_USER`, `FORTIFY_TOKEN`, `FORTIFY_TENANT`, `FORTIFY_RELEASE_ID`. Refer to Fortify on Demand documentation for more details on where to obtain these values. 
 
 ```yaml
 
-# This example utilizes Mobb with Checkmarx via GitLab CI/CD pipelines
+# This example utilizes Mobb with Fortify on Demand via GitLab CI/CD pipelines
+
+# This example utilizes Mobb with Fortify via GitLab CI/CD pipelines
 
 image:
   name: "node:20"
 
 stages:
-  - checkmarx-sast-scan
+  - fortify-sast-scan
   - mobb-autofixer
+
+
 
 workflow: # Run on every merge request
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_PIPELINE_SOURCE == 'web'
 
-checkmarx-sast-scan-job:
-  stage: checkmarx-sast-scan
+fortify-sast-scan-job:
+  stage: fortify-sast-scan
   tags:
     - saas-linux-medium-amd64
-  script:
-    - wget https://github.com/Checkmarx/ast-cli/releases/download/2.0.61/ast-cli_2.0.61_linux_x64.tar.gz -O checkmarx.tar.gz
-    - tar -xf checkmarx.tar.gz
-    - ./cx configure set --prop-name cx_apikey --prop-value $CX_API_KEY
-    - ./cx configure set --prop-name cx_base_auth_uri --prop-value $CX_BASE_AUTH_URI
-    - ./cx configure set --prop-name cx_base_uri --prop-value $CX_BASE_URI
-    - ./cx configure set --prop-name cx_tenant --prop-value $CX_TENANT
-    - ./cx scan create --project-name "My-Sample-Project" -s ./ --report-format json --scan-types sast --branch nobranch  --threshold "sast-high=1"
+  script: |
+    apt-get update 
+    apt install -y openjdk-17-jre-headless maven wget unzip
+    wget https://tools.fortify.com/scancentral/Fortify_ScanCentral_Client_21.2.0_x64.zip -O fcs.zip
+    unzip fcs.zip
+    chmod +x bin/scancentral
+    ./bin/scancentral package -bt mvn -o fortify_package.zip
+    wget https://github.com/fod-dev/fod-uploader-java/releases/download/v5.4.0/FodUpload.jar -O FodUpload.jar
+    UPLOAD_OUTPUT=$(java -jar FodUpload.jar \
+        -z fortify_package.zip \
+        -ep SingleScanOnly \
+        -portalurl https://ams.fortify.com/ \
+        -apiurl https://api.ams.fortify.com/ \
+        -userCredentials $FORTIFY_USER $FORTIFY_TOKEN \
+        -tenantCode $FORTIFY_TENANT \
+        -releaseId $FORTIFY_RELEASE_ID \
+        -pp Queue)
+    SCAN_ID=$(echo "$UPLOAD_OUTPUT" | sed -n 's/Scan \([0-9]*\).*$/\1/p')
+    FORTIFY_USER=$FORTIFY_USER FORTIFY_TOKEN=$FORTIFY_TOKEN FORTIFY_TENANT=$FORTIFY_TENANT node scripts/fortify-wait-fpr.js "$SCAN_ID"
+    ls -la
   artifacts:
     paths:
-    - "*.json"
+    - "*.fpr"
     when: always
 
 mobb-autofixer-job:
   stage: mobb-autofixer
   tags:
     - saas-linux-medium-amd64
-  script:
-    - npx mobbdev@latest analyze -f cx_result.json -r $CI_PROJECT_URL --ref $CI_COMMIT_REF_NAME --api-key $MOBB_API_KEY
-  when: on_failure # Run Mobb only if there's a finding to fix
+  script: 
+    - npx mobbdev@latest analyze -f scandata.fpr -r $CI_PROJECT_URL --ref $CI_COMMIT_REF_NAME --api-key $MOBB_API_KEY
+
 ```
 ## Feeding SAST Scan results to Mobb for Analysis
 
@@ -81,7 +97,7 @@ For simplicity, we will trigger this pipeline manually. To do so, go to Pipeline
 
 <img src="/source/images/MobbPipeline_RunPipeline.png" width=70% height=70%>
 
-This will trigger the pipeline to run the Checkmarx SAST scan. After the scan is complete, the results will automatically feed into Mobb for analysis on autofix options. 
+This will trigger the pipeline to run a Fortify SAST scan. After the scan is complete, the results will automatically feed into Mobb for analysis on autofix options. 
 
 ## View Mobb Analysis for auto-fix options
 
@@ -107,8 +123,4 @@ As the last step, enter the name of the target branch where this merge request w
 
 <img src="/source/images/Mobbmmit_CommitChanges.png" width=50% height=50%>
 
-Mobb has successfully committed the remediated code back to your repository under a new branch along with a new merge request. Since this pipeline is configured to run on every merge_request events, a new SAST scan will be conducted to validate the proposed changes to ensure the vulnerabilities have been remediated.
-
-<img src="/source/images/Mobb_FinalMerge.png" width=70% height=70%>
-
-The Checkmarx SAST scan passes with no high severity issues found. We will proceed to complete the merge!
+Mobb has successfully committed the remediated code back to your repository under a new branch along with a new merge request.
