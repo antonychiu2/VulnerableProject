@@ -18,7 +18,7 @@ fortify-sast-scan-job:
   stage: fortify-sast-scan
   tags:
     - saas-linux-medium-amd64
-  script: |
+  script: >
     apt-get update 
     apt install -y openjdk-17-jre-headless maven wget unzip
     wget https://tools.fortify.com/scancentral/Fortify_ScanCentral_Client_21.2.0_x64.zip -O fcs.zip
@@ -47,9 +47,8 @@ mobb-autofixer-job:
   stage: mobb-autofixer
   tags:
     - saas-linux-medium-amd64
-  script: |
-    ls -la
-    npx mobbdev@latest analyze -f scandata.fpr -r $CI_PROJECT_URL --ref $CI_COMMIT_REF_NAME --api-key $MOBB_API_KEY
+  script: 
+    - npx mobbdev@latest analyze -f scandata.fpr -r $CI_PROJECT_URL --ref $CI_COMMIT_REF_NAME --api-key $MOBB_API_KEY
 
 
 
