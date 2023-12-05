@@ -112,7 +112,7 @@ Mobb provides a powerful self-guided remediation engine. As a developer, all you
 
 Once you're ready, select the "Commit Changes" button. 
 
-<img src="/source/images/Mobbmmit_CommitFix.png" width=70% height=70%>
+<img src="/source/images/Mobb_CommitFix.png" width=70% height=70%>
 
 As the last step, enter the name of the target branch where this merge request will be merged. And select "Commit Changes". 
 
