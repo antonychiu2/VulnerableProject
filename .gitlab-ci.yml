@@ -11,8 +11,8 @@ workflow: # Run on every merge request
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_PIPELINE_SOURCE == 'web'
 
-checkmarx-sast-scan-job:
-  stage: checkmarx-sast-scan
+fortify-sast-scan-job:
+  stage: fortify-sast-scan
   tags:
     - saas-linux-medium-amd64
   script: |
@@ -30,11 +30,3 @@ checkmarx-sast-scan-job:
     unzip fcs.zip
     chmod +x bin/scancentral
     . /bin/scancentral
-    
-mobb-autofixer-job:
-  stage: mobb-autofixer
-  tags:
-    - saas-linux-medium-amd64
-  script:
-    - npx mobbdev@latest analyze -f cx_result.json -r $CI_PROJECT_URL --ref $CI_COMMIT_REF_NAME --api-key $MOBB_API_KEY
-  when: on_failure # Run Mobb only if there's a finding to fix
