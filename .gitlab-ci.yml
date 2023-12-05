@@ -4,24 +4,48 @@ image:
   name: "node:20"
 
 stages:
+  - fortify-sast-scan
   - mobb-autofixer
+
+
 
 workflow: # Run on every merge request
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_PIPELINE_SOURCE == 'web'
 
+fortify-sast-scan-job:
+  stage: fortify-sast-scan
+  tags:
+    - saas-linux-medium-amd64
+  script: |
+    apt-get update 
+    apt install -y openjdk-17-jre-headless maven wget unzip
+    wget https://tools.fortify.com/scancentral/Fortify_ScanCentral_Client_21.2.0_x64.zip -O fcs.zip
+    unzip fcs.zip
+    chmod +x bin/scancentral
+    ./bin/scancentral package -bt mvn -o fortify_package.zip
+    wget https://github.com/fod-dev/fod-uploader-java/releases/download/v5.4.0/FodUpload.jar -O FodUpload.jar
+    UPLOAD_OUTPUT=$(java -jar FodUpload.jar \
+        -z fortify_package.zip \
+        -ep SingleScanOnly \
+        -portalurl https://ams.fortify.com/ \
+        -apiurl https://api.ams.fortify.com/ \
+        -userCredentials $FORTIFY_USER $FORTIFY_TOKEN \
+        -tenantCode $FORTIFY_TENANT \
+        -releaseId $FORTIFY_RELEASE_ID \
+        -pp Queue)
+    SCAN_ID=$(echo "$UPLOAD_OUTPUT" | sed -n 's/Scan \([0-9]*\).*$/\1/p')
+    FORTIFY_USER=$FORTIFY_USER FORTIFY_TOKEN=$FORTIFY_TOKEN FORTIFY_TENANT=$FORTIFY_TENANT node scripts/fortify-wait-fpr.js "$SCAN_ID"
+    ls -la
+  artifacts:
+    paths:
+    - "*.fpr"
+    when: always
 
 mobb-autofixer-job:
   stage: mobb-autofixer
   tags:
     - saas-linux-medium-amd64
   script: 
-    - npx mobbdev@latest analyze -f cx_report.json -r $CI_PROJECT_URL --ref $CI_COMMIT_REF_NAME --api-key $MOBB_API_KEY
-
-
-
-
-
-
-
+    - npx mobbdev@latest analyze -f scandata.fpr -r $CI_PROJECT_URL --ref $CI_COMMIT_REF_NAME --api-key $MOBB_API_KEY
