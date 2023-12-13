@@ -1,19 +1,28 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
 pool:
   vmImage: ubuntu-latest
 
+variables:
+- group: Mobb-demo
+
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: NodeTool@0
+  inputs:
+    versionSource: 'spec'
+    versionSpec: '18.x'
+  displayName: Install Node 18
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    # npx snyk auth $(SNYK_API_KEY)
+    # npx snyk code test --sarif-file-output=report.json ./
+    # ls -l
+  displayName: 'Snyk SAST Scan'
+
+- script: |
+    ls -l
+    env
+    # npx mobbdev@latest analyze -f report.json -r "https://antonychiu.visualstudio.com/Mobb-Integration/" --ref $BUILD_SOURCEBRANCHNAME --api-key $(MOBB_API_KEY)
+  displayName: 'Mobb Autofixer'
+  condition: always()
