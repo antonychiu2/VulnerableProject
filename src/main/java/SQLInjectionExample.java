@@ -1,3 +1,4 @@
+import java.sql.PreparedStatement;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +12,11 @@ public class SQLInjectionExample extends HttpServlet {
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/db");
 
-            String query = "SELECT * FROM users WHERE username = '" + request.getParameter("username") + "';";
-            Statement stmt = con.createStatement();
+            String query = "SELECT * FROM users WHERE username = ?;";
+            PreparedStatement stmt = con.prepareStatement(query);
 
-            stmt.executeQuery(query);
+            stmt.setString(1, request.getParameter("username"));
+            stmt.executeQuery();
         } catch (Exception e) {
             throw new ServletException(e);
         }
