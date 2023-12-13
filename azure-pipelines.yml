@@ -20,18 +20,15 @@ steps:
     ls -l
   displayName: 'Snyk SAST Scan'
 
+- task: CopyFiles@2
+  inputs:
+    contents: '_buildOutput/**'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+  condition: always()
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'report.json'
-    publishLocation: 'Container'
-  condition: always()
-  
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Pipeline.Workspace)'
-    artifact: 'report.json'
-    publishLocation: 'pipeline'
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: MyBuildOutputs
   condition: always()
 
 - script: |
