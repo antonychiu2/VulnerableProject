@@ -15,14 +15,14 @@ steps:
   displayName: Install Node 18
 
 - script: |
-    # npx snyk auth $(SNYK_API_KEY)
-    # npx snyk code test --sarif-file-output=report.json ./
-    # ls -l
+    npx snyk auth $(SNYK_API_KEY)
+    npx snyk code test --sarif-file-output=report.json ./
+    ls -l
   displayName: 'Snyk SAST Scan'
 
 - script: |
     ls -l
     env
-    # npx mobbdev@latest analyze -f report.json -r "https://antonychiu.visualstudio.com/Mobb-Integration/" --ref $BUILD_SOURCEBRANCHNAME --api-key $(MOBB_API_KEY)
+    npx mobbdev@latest analyze -f report.json -r $BUILD_REPOSITORY_URI --ref $BUILD_SOURCEBRANCHNAME --api-key $(MOBB_API_KEY)
   displayName: 'Mobb Autofixer'
   condition: always()
