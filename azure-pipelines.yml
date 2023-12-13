@@ -17,18 +17,15 @@ steps:
 - script: |
     npx snyk auth $(SNYK_API_KEY)
     npx snyk code test --sarif-file-output=report.json
-    pwd
-    ls -l
-    
   displayName: 'Snyk SAST Scan'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathToPublish: $(System.DefaultWorkingDirectory)/report.json
+    pathToPublish: $(System.DefaultWorkingDirectory)/*.json
     artifactName: MyBuildOutputs
   condition: always()
 
 - script: |
-    # npx mobbdev@latest analyze -f report.json -r $BUILD_REPOSITORY_URI --ref $BUILD_SOURCEBRANCHNAME --api-key $(MOBB_API_KEY) --ci
+    npx mobbdev@latest analyze -f report.json -r $BUILD_REPOSITORY_URI --ref $BUILD_SOURCEBRANCHNAME --api-key $(MOBB_API_KEY) --ci
   displayName: 'Mobb Autofixer'
   condition: failed()
