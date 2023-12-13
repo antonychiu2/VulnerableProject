@@ -17,12 +17,14 @@ steps:
 - script: |
     npx snyk auth $(SNYK_API_KEY)
     npx snyk code test --sarif-file-output=report.json
+    pwd
     ls -l
+    
   displayName: 'Snyk SAST Scan'
 
 - task: CopyFiles@2
   inputs:
-    contents: '_buildOutput/**'
+    contents: '*/**'
     targetFolder: $(Build.ArtifactStagingDirectory)
   condition: always()
 - task: PublishBuildArtifacts@1
