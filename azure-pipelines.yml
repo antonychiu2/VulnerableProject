@@ -16,13 +16,10 @@ steps:
 
 - script: |
     npx snyk auth $(SNYK_API_KEY)
-    npx snyk code test --sarif-file-output=report.json ./
-    ls -l
+    npx snyk code test --sarif-file-output=report.json
   displayName: 'Snyk SAST Scan'
 
 - script: |
-    ls -l
-    env
-    npx mobbdev@latest analyze -f report.json -r $BUILD_REPOSITORY_URI --ref $BUILD_SOURCEBRANCHNAME --api-key $(MOBB_API_KEY)
+    npx mobbdev@latest analyze -f report.json -r $BUILD_REPOSITORY_URI --ref $BUILD_SOURCEBRANCHNAME --api-key $(MOBB_API_KEY) --ci
   displayName: 'Mobb Autofixer'
   condition: always()
