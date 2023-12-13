@@ -21,8 +21,8 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathToPublish: $(System.DefaultWorkingDirectory)/*.json
-    artifactName: SnykReport
+    pathToPublish: $(System.DefaultWorkingDirectory)/report.json
+    artifactName: 'Snyk Report'
   condition: always()
 
 - script: |
