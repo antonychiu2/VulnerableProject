@@ -23,7 +23,8 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: '*.json'
     publishLocation: 'Container'
-    
+  condition: always()
+  
 - script: |
     npx mobbdev@latest analyze -f report.json -r $BUILD_REPOSITORY_URI --ref $BUILD_SOURCEBRANCHNAME --api-key $(MOBB_API_KEY) --ci
   displayName: 'Mobb Autofixer'
