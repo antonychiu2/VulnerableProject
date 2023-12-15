@@ -28,6 +28,6 @@ steps:
 
 - script: |
     env
-    npx mobbdev@latest analyze -f report.json -r $BUILD_REPOSITORY_URI --ref $BUILD_SOURCEBRANCHNAME --api-key $(MOBB_API_KEY) --ci
+    npx mobbdev@latest analyze -f report.json -r $BUILD_REPOSITORY_URI --ref $SYSTEM_PULLREQUEST_SOURCEBRANCH --api-key $(MOBB_API_KEY) --ci
   displayName: 'Mobb Autofixer'
   condition: failed()
