@@ -1,7 +1,5 @@
 pr:
-  branches:
-    include:
-    - '*'
+  - main
 
 
 pool:
